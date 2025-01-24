@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { products } from "../data/products";
+import products from "../data/products";
 
 export default function Home() {
   return (
