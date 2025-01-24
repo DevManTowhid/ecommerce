@@ -1,33 +1,58 @@
-import Image from "next/image";
-import products from "../data/products";
+// Define the Product type/interface to resolve the mismatch
+interface Product {
+  id: string; // The id should match the type used in your data (e.g., string)
+  name: string;
+  available: number;
+  price: number;
+  category: string;
+  image: string;
+  description: string;
+}
+
+// Assuming your `products` data is loaded or imported from somewhere
+const products: Product[] = [
+  // Example product objects with proper typing
+  {
+    id: "1",
+    name: "Sample Product",
+    available: 10,
+    price: 99.99,
+    category: "Electronics",
+    image: "/sample.jpg",
+    description: "This is a sample product."
+  },
+  // Add more product objects as needed
+];
 
 export default function Home() {
+  // Your cart state (if necessary)
+  const [cart, setCart] = useState<Product[]>([]);
+
+  // Add to cart function
+  const addToCart = (product: Product) => {
+    setCart((prevCart) => {
+      const existingProduct = prevCart.find((item) => item.id === product.id);
+      if (existingProduct) {
+        return prevCart.map((item) =>
+          item.id === product.id
+            ? { ...item, available: item.available - 1 } // Example logic to update
+            : item
+        );
+      }
+      return [...prevCart, product];
+    });
+  };
+
   return (
-    <div className="min-h-screen p-8 bg-gray-100">
-      <h1 className="text-3xl font-bold text-center mb-8">Our Products</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {products.slice(0, 53).map((product) => ( // Display the first 53 products
-          <div
-            key={product.id}
-            className="bg-white rounded-lg shadow-lg p-4 flex flex-col items-center"
-          >
-            <Image
-              src={product.image}
-              alt={product.name}
-              width={200}
-              height={200}
-              className="rounded-md"
-            />
-            <h2 className="text-xl font-semibold mt-4">{product.name}</h2>
-            <p className="text-gray-600 text-sm text-center mt-2">
-              {product.description}
-            </p>
-            <span className="text-lg font-bold text-green-600 mt-4">
-              ${product.price.toFixed(2)}
-            </span>
-            <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-              Add to Cart
-            </button>
+    <div>
+      <h1>Products</h1>
+      <div>
+        {products.map((product) => (
+          <div key={product.id}>
+            <h2>{product.name}</h2>
+            <p>{product.description}</p>
+            <p>Price: ${product.price}</p>
+            <button onClick={() => addToCart(product)}>Add to Cart</button>
           </div>
         ))}
       </div>
