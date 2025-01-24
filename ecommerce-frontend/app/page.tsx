@@ -1,36 +1,8 @@
 import Image from "next/image";
-
+import  {products} from "../data/products";
+const product = products;
 export default function Home() {
-  const products = [
-    {
-      id: 1,
-      name: "Wireless Headphones",
-      description: "High-quality wireless headphones with noise cancellation.",
-      price: "$199",
-      image: "/headphones.jpg",
-    },
-    {
-      id: 2,
-      name: "Smartphone",
-      description: "Latest model with an advanced camera and sleek design.",
-      price: "$999",
-      image: "/smartphone.jpg",
-    },
-    {
-      id: 3,
-      name: "Laptop",
-      description: "Powerful laptop with great performance and portability.",
-      price: "$1,499",
-      image: "/laptop.jpg",
-    },
-    {
-      id: 4,
-      name: "Smart Watch",
-      description: "Track your fitness goals and stay connected on the go.",
-      price: "$249",
-      image: "/smartwatch.jpg",
-    },
-  ];
+  
 
   return (
     <div className="min-h-screen p-8 bg-gray-100">
