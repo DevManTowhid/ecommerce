@@ -1,22 +1,20 @@
-import Footer from "../components/Footer";
-import HeroBanner from "../components/HeroBanner";
 import Navbar from "../components/Navbar";
+import HeroBanner from "../components/HeroBanner";
+import Footer from "../components/Footer";
 
 export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        
+        {/* Navbar Section */}
+        <Navbar />
 
-        
-        <Navbar/>
-
-        {/* Button Section */}
+        {/* Hero Banner Section */}
         <HeroBanner />
       </main>
 
       {/* Footer Section */}
-      <Footer/>
+      <Footer />
     </div>
   );
 }
