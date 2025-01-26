@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - TechSphere</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="sticky top-0 bg-white shadow-md z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <h1 class="text-2xl font-bold text-gray-800">TechSphere</h1>
+                <div class="hidden md:flex space-x-8">
+                    <a href="home.html" class="text-gray-600 hover:text-gray-900">Home</a>
+                    <a href="home.html#shop" class="text-gray-600 hover:text-gray-900">Shop</a>
+                    <a href="home.html#categories" class="text-gray-600 hover:text-gray-900">Categories</a>
+                    <a href="home.html#blog" class="text-gray-600 hover:text-gray-900">Blog</a>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <i class="fas fa-user text-gray-600 hover:text-blue-500 cursor-pointer"></i>
+                    <a href="cart.html" class="relative">
+                        <i class="fas fa-shopping-cart text-gray-600 hover:text-blue-500 cursor-pointer"></i>
+                        <span class="cart-counter absolute -top-2 -right-3 bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8">Shopping Cart</h1>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Cart Items -->
+            <div class="lg:col-span-2" id="cart-items-container">
+                <!-- Content will be dynamically inserted here -->
+            </div>
+
+            <!-- Order Summary -->
+            <div class="bg-white rounded-lg shadow-md p-6 h-fit sticky top-20">
+                <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
+                <div class="space-y-3 mb-6">
+                    <div class="flex justify-between">
+                        <span>Subtotal (<span id="item-count">0</span> items)</span>
+                        <span id="subtotal">$0.00</span>
+                    </div>
+                    <div class="flex justify-between" id="shipping-row">
+                        <span>Shipping</span>
+                        <span id="shipping">$0.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Taxes</span>
+                        <span id="taxes">$0.00</span>
+                    </div>
+                    <div class="flex justify-between border-t pt-3 font-bold">
+                        <span>Total</span>
+                        <span id="total">$0.00</span>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors">
+                        Proceed to Checkout
+                    </button>
+                    <a href="home.html" class="block text-center text-blue-600 hover:text-blue-700">
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h4 class="text-white font-semibold mb-4">About Us</h4>
+                    <p class="text-sm">TechSphere - Premium Electronics Retailer since 2020</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Help</h4>
+                    <div class="space-y-2 text-sm">
+                        <a href="#" class="block hover:text-white">FAQ</a>
+                        <a href="#" class="block hover:text-white">Shipping</a>
+                        <a href="#" class="block hover:text-white">Returns</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
+                    <div class="space-y-2 text-sm">
+                        <a href="#" class="block hover:text-white">Privacy Policy</a>
+                        <a href="#" class="block hover:text-white">Terms of Service</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-white"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2023 TechSphere. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load cart data
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const container = document.getElementById('cart-items-container');
+        const cartCounter = localStorage.getItem('cartCount') || 0;
+
+        // Update cart counter
+        document.querySelectorAll('.cart-counter').forEach(el => {
+            el.textContent = cartCounter;
+        });
+
+        // Render cart items or empty message
+        if (cart.length === 0) {
+            container.innerHTML = `
+                <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                    <i class="fas fa-shopping-cart text-4xl text-gray-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Your cart is empty</h3>
+                    <a href="home.html" class="text-blue-600 hover:text-blue-700">
+                        Start shopping now
+                    </a>
+                </div>
+            `;
+            document.getElementById('shipping-row').style.display = 'none';
+        } else {
+            container.innerHTML = cart.map(item => `
+                <div class="cart-item bg-white rounded-lg shadow-md p-6 mb-4" data-id="${item.id}">
+                    <div class="flex items-center">
+                        <img src="${item.image}" 
+                             alt="${item.name}" 
+                             class="w-20 h-20 object-cover rounded-lg">
+                        <div class="flex-1 ml-4">
+                            <h3 class="text-lg font-semibold">${item.name}</h3>
+                            <p class="text-gray-600">$${item.price.toFixed(2)}</p>
+                            <div class="flex items-center mt-2">
+                                <div class="flex items-center border rounded-lg">
+                                    <button class="quantity-minus px-3 py-1 text-gray-600 hover:bg-gray-100">-</button>
+                                    <input type="number" 
+                                           value="${item.quantity}" 
+                                           min="1" 
+                                           class="w-16 text-center border-0 focus:ring-0">
+                                    <button class="quantity-plus px-3 py-1 text-gray-600 hover:bg-gray-100">+</button>
+                                </div>
+                                <button class="remove-item ml-4 text-red-500 hover:text-red-700">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update totals
+        const updateTotals = () => {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = cart.length > 0 ? (subtotal > 100 ? 0 : 15) : 0;
+            const taxes = cart.length > 0 ? subtotal * 0.07 : 0;
+            const total = subtotal + shipping + taxes;
+
+            document.getElementById('item-count').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('shipping').textContent = `$${shipping.toFixed(2)}`;
+            document.getElementById('taxes').textContent = `$${taxes.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+
+            // Update cart counter
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            localStorage.setItem('cartCount', totalItems);
+            document.querySelectorAll('.cart-counter').forEach(el => {
+                el.textContent = totalItems;
+            });
+
+            // Toggle shipping visibility
+            document.getElementById('shipping-row').style.display = 
+                cart.length > 0 ? 'flex' : 'none';
+        };
+
+        // Quantity controls
+        document.addEventListener('click', function(e) {
+            const isPlus = e.target.classList.contains('quantity-plus');
+            const isMinus = e.target.classList.contains('quantity-minus');
+            
+            if (isPlus || isMinus) {
+                const input = e.target.parentElement.querySelector('input');
+                let quantity = parseInt(input.value);
+                
+                quantity = isPlus ? quantity + 1 : Math.max(1, quantity - 1);
+                input.value = quantity;
+                
+                const itemId = e.target.closest('.cart-item').dataset.id;
+                const cart = JSON.parse(localStorage.getItem('cart'));
+                const item = cart.find(i => i.id == itemId);
+                item.quantity = quantity;
+                
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateTotals();
+            }
+        });
+
+        // Remove item
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.remove-item')) {
+                const itemId = e.target.closest('.cart-item').dataset.id;
+                let cart = JSON.parse(localStorage.getItem('cart'));
+                cart = cart.filter(item => item.id != itemId);
+                
+                localStorage.setItem('cart', JSON.stringify(cart));
+                e.target.closest('.cart-item').remove();
+                
+                if (cart.length === 0) {
+                    container.innerHTML = `
+                        <div class="bg-white rounded-lg shadow-md p-6 text-center">
+                            <i class="fas fa-shopping-cart text-4xl text-gray-400 mb-4"></i>
+                            <h3 class="text-xl font-semibold mb-2">Your cart is empty</h3>
+                            <a href="home.html" class="text-blue-600 hover:text-blue-700">
+                                Start shopping now
+                            </a>
+                        </div>
+                    `;
+                }
+                
+                updateTotals();
+            }
+        });
+
+        // Initial totals calculation
+        updateTotals();
+    });
+    </script>
+</body>
+</html>
